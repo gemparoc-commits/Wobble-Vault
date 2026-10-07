@@ -1,0 +1,245 @@
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(14, 22, 21, 0.58);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcfb 100%);
+  border-radius: 20px;
+  width: 92%;
+  max-width: 760px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.26);
+  border: 1px solid rgba(223, 231, 227, 0.9);
+  animation: slideUp 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 40px);
+}
+
+.modal-large {
+  width: 80vw;
+  max-width: 1320px;
+}
+
+.modal-medium {
+  width: 75vw;
+  max-width: 1120px;
+}
+
+.modal-finance {
+  width: 60vw;
+  max-width: 1200px;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid #edf2ef;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #18201d;
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.3s;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-body {
+  padding: 22px 24px;
+  max-height: 70vh;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-large .modal-body {
+  max-height: 78vh;
+}
+
+@media (max-width: 900px) {
+  .modal-medium {
+    width: 92%;
+    max-width: 92%;
+  }
+
+  .modal-large {
+    width: 92%;
+    max-width: 92%;
+  }
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 18px 24px 22px;
+  border-top: 1px solid #edf2ef;
+  background: linear-gradient(180deg, #fbfcfb 0%, #f5f8f7 100%);
+}
+
+.btn-cancel,
+.btn-submit {
+  padding: 11px 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.btn-cancel {
+  background-color: #edf2ef;
+  color: #18201d;
+}
+
+.btn-cancel:hover:not(:disabled) {
+  background-color: #dee8e3;
+  transform: translateY(-1px);
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #016667 0%, #014d4e 100%);
+  color: white;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #014d4e 0%, #013334 100%);
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #c0392b 0%, #96281b 100%);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: linear-gradient(135deg, #96281b 0%, #6f1c12 100%);
+  transform: translateY(-1px);
+}
+
+.confirm-modal-message {
+  margin: 0;
+  color: #333;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.btn-cancel:disabled,
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 0;
+    align-items: stretch;
+    backdrop-filter: none;
+  }
+
+  .modal-content,
+  .modal-large,
+  .modal-medium,
+  .modal-finance {
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: 100dvh;
+    border: none;
+    border-radius: 0;
+  }
+
+  .modal-header {
+    flex: 0 0 auto;
+    padding: 16px;
+  }
+
+  .modal-header h2 {
+    font-size: 19px;
+  }
+
+  .modal-body,
+  .modal-large .modal-body {
+    padding: 16px;
+    max-height: none;
+  }
+
+  .modal-footer {
+    position: sticky;
+    bottom: 0;
+    flex: 0 0 auto;
+    padding: 12px 16px;
+    gap: 10px;
+  }
+
+  .btn-cancel,
+  .btn-submit {
+    flex: 1;
+    min-height: 44px;
+    font-size: 15px;
+  }
+
+  .modal-close {
+    width: 44px;
+    height: 44px;
+  }
+
+  .modal-body input:not([type="checkbox"]),
+  .modal-body select,
+  .modal-body textarea {
+    min-height: 44px;
+  }
+}

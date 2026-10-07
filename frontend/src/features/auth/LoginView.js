@@ -1,0 +1,119 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import '../../styles/Login.css';
+
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { login, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    const form = e.currentTarget;
+    const emailInput = form.elements.email;
+    const passwordInput = form.elements.password;
+    const submittedEmail = (emailInput?.value || '').trim();
+    const submittedPassword = passwordInput?.value || '';
+
+    try {
+      await login(submittedEmail, submittedPassword);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="login-container">
+      <div className="login-card">
+        <section className="login-visual" aria-label="Wobble Vault branding">
+          <div className="login-brand">
+            <img
+              className="login-logo"
+              src="/wvlogo.png"
+              alt="Wobble Vault logo"
+            />
+            <div className="brand-copy">
+              <h1>Wobble Vault</h1>
+              <p>Apparel and Clothing</p>
+            </div>
+          </div>
+
+          <div className="brand-highlight">
+            <h2>Authentic Shoe Store</h2>
+            <p>
+              Manage inventory, orders, sales reports from one focused workspace.
+            </p>
+          </div>
+
+          <ul className="brand-points">
+            <li>Quality Products</li>
+            <li>Quality Service</li>
+            <li>Negotiable Prices</li>
+          </ul>
+        </section>
+
+        <section className="login-panel">
+          <div className="login-panel-inner">
+            <div className="login-header">
+              <h2>Welcome back</h2>
+              <p className="motto">Sign in with your email to continue to the dashboard.</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="login-form">
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
+                  required
+                  disabled={loading}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={loading}
+                />
+              </div>
+
+              {error && <div className="error-message">{error}</div>}
+
+              <button type="submit" className="login-btn" disabled={loading}>
+                {loading ? 'Signing in...' : 'Sign In'}
+              </button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

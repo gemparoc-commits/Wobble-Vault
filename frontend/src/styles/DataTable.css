@@ -1,0 +1,240 @@
+/* DataTable Styles */
+.datatable-container {
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid #dbe4e0;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbfa 100%);
+  box-shadow: 0 12px 28px rgba(18, 32, 30, 0.06);
+}
+
+.datatable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.datatable thead {
+  background: linear-gradient(135deg, #0f6d6b 0%, #0a5351 100%);
+  color: #fff;
+}
+
+.datatable th {
+  padding: 15px;
+  text-align: left;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  white-space: nowrap;
+}
+
+.datatable td {
+  padding: 15px;
+  border-bottom: 1px solid #edf2ef;
+  color: #18201d;
+}
+
+.datatable tbody tr:hover {
+  background-color: rgba(15, 109, 107, 0.03);
+}
+
+.datatable tbody tr:nth-child(even) {
+  background-color: #fbfcfb;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-view,
+.btn-edit,
+.btn-delete {
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+  white-space: nowrap;
+}
+
+.btn-view {
+  color: #0f6d6b;
+  border-color: rgba(15, 109, 107, 0.18);
+  background: rgba(15, 109, 107, 0.06);
+}
+
+.btn-view:hover {
+  transform: translateY(-1px);
+  background: rgba(15, 109, 107, 0.1);
+}
+
+.btn-edit {
+  color: #0a5351;
+  border-color: rgba(10, 83, 81, 0.18);
+  background: rgba(10, 83, 81, 0.06);
+}
+
+.btn-edit:hover {
+  transform: translateY(-1px);
+  background: rgba(10, 83, 81, 0.1);
+}
+
+.btn-delete {
+  color: #c23b22;
+  border-color: rgba(194, 59, 34, 0.2);
+  background: rgba(194, 59, 34, 0.06);
+}
+
+.btn-delete:hover {
+  transform: translateY(-1px);
+  background: rgba(194, 59, 34, 0.1);
+}
+
+.loading,
+.no-data {
+  padding: 48px 24px;
+  text-align: center;
+  color: #5f6d68;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbfa 100%);
+  border: 1px solid #dbe4e0;
+  border-radius: 20px;
+  box-shadow: 0 12px 28px rgba(18, 32, 30, 0.06);
+  display: grid;
+  gap: 8px;
+}
+
+.loading strong,
+.no-data strong {
+  color: #18201d;
+  font-size: 16px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  background: #f8fbfa;
+  border-top: 1px solid #edf2ef;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #0f6d6b 0%, #0a5351 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+.pagination button:disabled {
+  background: #c7d4d0;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  color: #5f6d68;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .datatable-container {
+    overflow: visible;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .datatable,
+  .datatable tbody,
+  .datatable tr,
+  .datatable td {
+    display: block;
+    width: 100%;
+  }
+
+  .datatable thead {
+    display: none;
+  }
+
+  .datatable tbody tr {
+    margin-bottom: 14px;
+    padding: 6px 16px;
+    border: 1px solid #dbe4e0;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbfa 100%);
+    box-shadow: 0 12px 28px rgba(18, 32, 30, 0.06);
+  }
+
+  .datatable tbody tr:nth-child(even) {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbfa 100%);
+  }
+
+  .datatable td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 11px 0;
+    border-bottom: 1px solid #edf2ef;
+    text-align: right;
+    word-break: break-word;
+  }
+
+  .datatable td::before {
+    content: attr(data-label);
+    flex: 0 0 auto;
+    color: #6e645a;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: left;
+  }
+
+  .datatable td:last-child {
+    border-bottom: none;
+  }
+
+  .datatable td.actions {
+    display: flex;
+    gap: 10px;
+    padding: 12px 0;
+  }
+
+  .datatable td.actions::before {
+    content: none;
+  }
+
+  .btn-view,
+  .btn-edit,
+  .btn-delete {
+    flex: 1;
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .pagination {
+    background: transparent;
+    border-top: none;
+    padding: 4px 0 14px;
+  }
+
+  .pagination button {
+    min-height: 44px;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}

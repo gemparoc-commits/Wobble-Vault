@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "BackendApplication",
+            "request": "launch",
+            "mainClass": "com.wobblevault.backend.BackendApplication",
+            "projectName": "wobble-vault-backend"
+        },
+        {
+            "type": "java",
+            "name": "Launch BackendApplication",
+            "request": "launch",
+            "mainClass": "sports.apparel.backend.BackendApplication",
+            "projectName": "backend",
+            "env": {
+                "SPRING_PROFILES_ACTIVE": "local"
+            }
+        }
+    ]
+}

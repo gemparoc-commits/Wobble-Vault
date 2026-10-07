@@ -1,0 +1,25 @@
+import api from './api';
+
+const orderService = {
+  createOrder: (orderData) => api.post('/api/orders', orderData),
+
+  getAllOrders: (page = 0, size = 10, status = null) =>
+    api.get('/api/orders', { params: status ? { page, size, status } : { page, size } }),
+
+  getOrderById: (id) => api.get(`/api/orders/${id}`),
+
+  getOrderByJobOrderNo: (jobOrderNo) =>
+    api.get(`/api/orders/job-order-no/${jobOrderNo}`),
+
+  getOrdersByDateRange: (startDate, endDate) =>
+    api.get('/api/orders/date-range', { params: { startDate, endDate } }),
+
+  getOrdersByYearAndMonth: (year, month) =>
+    api.get('/api/orders/year-month', { params: { year, month } }),
+
+  updateOrder: (id, orderData) => api.put(`/api/orders/${id}`, orderData),
+
+  deleteOrder: (id) => api.delete(`/api/orders/${id}`),
+};
+
+export default orderService;
