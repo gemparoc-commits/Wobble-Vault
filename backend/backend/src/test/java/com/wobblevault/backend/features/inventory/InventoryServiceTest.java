@@ -41,6 +41,8 @@ class InventoryServiceTest {
         request.setBrand("  Nike  ");
         request.setName(" Air Zoom ");
         request.setSize(" 9 ");
+        request.setGender("  Men ");
+        request.setSizingSystem(" US ");
         request.setQuantity(12);
         request.setPrice(new BigDecimal("2500.50"));
         request.setNotes("  restock soon  ");
@@ -53,6 +55,8 @@ class InventoryServiceTest {
         inventory.setBrand("Nike");
         inventory.setName("Air Zoom");
         inventory.setSize("9");
+        inventory.setGender("Men");
+        inventory.setSizingSystem("US");
         inventory.setQuantity(12);
         inventory.setPrice(new BigDecimal("2500.50"));
         inventory.setNotes("restock soon");
@@ -69,10 +73,14 @@ class InventoryServiceTest {
         assertEquals("Nike", captor.getValue().getBrand());
         assertEquals("Air Zoom", captor.getValue().getName());
         assertEquals("9", captor.getValue().getSize());
+        assertEquals("Men", captor.getValue().getGender());
+        assertEquals("US", captor.getValue().getSizingSystem());
         assertEquals("restock soon", captor.getValue().getNotes());
         assertEquals(12, captor.getValue().getQuantity());
         assertEquals(new BigDecimal("2500.50"), captor.getValue().getPrice());
         assertEquals("Nike", dto.getBrand());
+        assertEquals("Men", dto.getGender());
+        assertEquals("US", dto.getSizingSystem());
         assertEquals(12, dto.getQuantity());
     }
 
@@ -80,6 +88,8 @@ class InventoryServiceTest {
     void createInventory_blankSizeAndNotes_becomeNull() {
         CreateInventoryRequest request = request();
         request.setSize("   ");
+        request.setGender(null);
+        request.setSizingSystem("  ");
         request.setNotes(null);
 
         inventoryService.createInventory(request);
@@ -87,6 +97,8 @@ class InventoryServiceTest {
         ArgumentCaptor<Inventory> captor = ArgumentCaptor.forClass(Inventory.class);
         verify(inventoryRepository).save(captor.capture());
         assertNull(captor.getValue().getSize());
+        assertNull(captor.getValue().getGender());
+        assertNull(captor.getValue().getSizingSystem());
         assertNull(captor.getValue().getNotes());
     }
 
@@ -114,6 +126,8 @@ class InventoryServiceTest {
 
         CreateInventoryRequest request = request();
         request.setBrand("Adidas");
+        request.setGender("Women");
+        request.setSizingSystem("EU");
         request.setQuantity(5);
 
         InventoryDTO dto = inventoryService.updateInventory(id, request);
@@ -121,8 +135,12 @@ class InventoryServiceTest {
         ArgumentCaptor<Inventory> captor = ArgumentCaptor.forClass(Inventory.class);
         verify(inventoryRepository).save(captor.capture());
         assertEquals("Adidas", captor.getValue().getBrand());
+        assertEquals("Women", captor.getValue().getGender());
+        assertEquals("EU", captor.getValue().getSizingSystem());
         assertEquals(5, captor.getValue().getQuantity());
         assertEquals("Adidas", dto.getBrand());
+        assertEquals("Women", dto.getGender());
+        assertEquals("EU", dto.getSizingSystem());
         assertEquals(5, dto.getQuantity());
     }
 

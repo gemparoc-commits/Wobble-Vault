@@ -11,6 +11,8 @@ describe('inventoryFormUtils', () => {
     expect(formData).toEqual({
       brand: '',
       name: '',
+      gender: '',
+      sizingSystem: '',
       size: '',
       quantity: '',
       price: '',
@@ -58,6 +60,8 @@ describe('inventoryFormUtils', () => {
     const payload = buildInventoryPayload({
       brand: '  Nike  ',
       name: ' Air Zoom ',
+      gender: '  Men  ',
+      sizingSystem: ' UK ',
       size: ' 9 ',
       quantity: '12',
       price: '2500.50',
@@ -67,6 +71,8 @@ describe('inventoryFormUtils', () => {
     expect(payload).toEqual({
       brand: 'Nike',
       name: 'Air Zoom',
+      gender: 'Men',
+      sizingSystem: 'UK',
       size: '9',
       quantity: 12,
       price: 2500.5,
@@ -85,6 +91,8 @@ describe('inventoryFormUtils', () => {
     });
 
     expect(payload.size).toBeNull();
+    expect(payload.gender).toBeNull();
+    expect(payload.sizingSystem).toBeNull();
     expect(payload.notes).toBeNull();
   });
 
@@ -92,6 +100,8 @@ describe('inventoryFormUtils', () => {
     const formData = buildInventoryFormData({
       brand: 'Nike',
       name: 'Air Zoom',
+      gender: 'Men',
+      sizingSystem: 'US',
       size: '9',
       quantity: 8,
       price: 2500,
@@ -101,6 +111,8 @@ describe('inventoryFormUtils', () => {
     expect(formData).toEqual({
       brand: 'Nike',
       name: 'Air Zoom',
+      gender: 'Men',
+      sizingSystem: 'US',
       size: '9',
       quantity: '8',
       price: '2500',

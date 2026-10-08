@@ -44,7 +44,10 @@
 .login-logo {
   width: 124px;
   height: 124px;
+  display: block;
   object-fit: contain;
+  border-radius: 28px;
+  clip-path: inset(0 round 28px);
   flex: 0 0 auto;
   filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.28));
 }

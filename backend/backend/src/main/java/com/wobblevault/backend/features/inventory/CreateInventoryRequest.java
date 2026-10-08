@@ -20,6 +20,10 @@ public class CreateInventoryRequest {
 
     private String size;
 
+    private String gender;
+
+    private String sizingSystem;
+
     private String notes;
 
     @NotNull(message = "Quantity is required")

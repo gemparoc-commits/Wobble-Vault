@@ -45,7 +45,7 @@ const Login = () => {
           <div className="login-brand">
             <img
               className="login-logo"
-              src="/wvlogo.png"
+              src="/woblelogo.jpg"
               alt="Wobble Vault logo"
             />
             <div className="brand-copy">

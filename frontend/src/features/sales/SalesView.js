@@ -118,6 +118,16 @@ const Sales = () => {
   const liquidationTotal = sumEntries(entries, isLiquidationEntry);
   const netTotal = salesTotal - liquidationTotal;
 
+  const isShopType = (entry, shop) =>
+    isSaleEntry(entry) && String(entry.shopType || '').toLowerCase() === shop;
+  const isPayment = (entry, method) =>
+    isSaleEntry(entry) && String(entry.paymentMethod || '').toLowerCase() === method;
+
+  const storeTotal = sumEntries(entries, (entry) => isShopType(entry, 'store'));
+  const onlineTotal = sumEntries(entries, (entry) => isShopType(entry, 'online'));
+  const cashTotal = sumEntries(entries, (entry) => isPayment(entry, 'cash'));
+  const gcashTotal = sumEntries(entries, (entry) => isPayment(entry, 'gcash'));
+
   const reportSourceEntries = reportEntries || entries;
   const reportSalesTotal = sumEntries(reportSourceEntries, isSaleEntry);
   const reportLiquidationTotal = sumEntries(reportSourceEntries, isLiquidationEntry);
@@ -397,6 +407,31 @@ const Sales = () => {
                   <strong>{formatMoney(netTotal)}</strong>
                   <span>Net</span>
                   <small>Sales minus liquidations</small>
+                </div>
+              </div>
+            </div>
+
+            <div className="finance-summary-grid finance-summary-grid-two">
+              <div className="finance-summary-card">
+                <span className="income-details-label">Source of income</span>
+                <div className="finance-breakdown-row">
+                  <span>Store</span>
+                  <strong>{formatMoney(storeTotal)}</strong>
+                </div>
+                <div className="finance-breakdown-row">
+                  <span>Online (FB Page)</span>
+                  <strong>{formatMoney(onlineTotal)}</strong>
+                </div>
+              </div>
+              <div className="finance-summary-card">
+                <span className="income-details-label">Payment methods</span>
+                <div className="finance-breakdown-row">
+                  <span>Cash</span>
+                  <strong>{formatMoney(cashTotal)}</strong>
+                </div>
+                <div className="finance-breakdown-row">
+                  <span>Gcash</span>
+                  <strong>{formatMoney(gcashTotal)}</strong>
                 </div>
               </div>
             </div>

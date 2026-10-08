@@ -1,0 +1,264 @@
+:root {
+  --brand-bone: #f4f1eb;
+  --brand-paper: #fffcf7;
+  --brand-ink: #242321;
+  --brand-muted: #706c66;
+  --brand-line: #d8d1c7;
+  --brand-red: #b83a32;
+  --brand-red-dark: #8f2925;
+  --brand-red-soft: #f5e2de;
+  --brand-green: #3f6b55;
+  --brand-amber: #a56b2a;
+}
+
+body {
+  background-color: var(--brand-bone);
+  color: var(--brand-ink);
+}
+
+.sidebar,
+.navbar {
+  background: var(--brand-ink);
+}
+
+.sidebar {
+  border-right-color: rgba(255, 252, 247, 0.12);
+}
+
+.sidebar .logo-accent,
+.navbar .logo-accent {
+  color: var(--brand-red);
+}
+
+.menu-section a.active,
+.menu-section a:hover {
+  background: rgba(184, 58, 50, 0.18);
+  border-color: rgba(184, 58, 50, 0.32);
+}
+
+.menu-icon,
+.section-icon,
+.summary-icon,
+.watchlist-icon,
+.module-icon {
+  color: var(--brand-red) !important;
+}
+
+.main-content,
+.content-wrapper,
+.page-container,
+.dashboard {
+  background: transparent;
+}
+
+.content-surface,
+.dashboard-panel,
+.dashboard-summary-card,
+.module-card,
+.modal-content,
+.dropdown-menu,
+.login-panel,
+.datatable-container {
+  background: var(--brand-paper);
+  border-color: var(--brand-line);
+  box-shadow: 0 12px 30px rgba(36, 35, 33, 0.06);
+}
+
+.page-title-block h1,
+.page-header h1,
+.dashboard h1,
+.panel-header h2,
+.content-surface-header h2,
+.modal-header h2,
+.login-header h2 {
+  color: var(--brand-ink);
+}
+
+.page-eyebrow,
+.panel-kicker,
+.inventory-details-eyebrow,
+.access-denied-kicker {
+  color: var(--brand-red) !important;
+}
+
+.page-subtitle,
+.content-surface-header p,
+.panel-header p,
+.summary-note,
+.module-description,
+.form-help-text,
+.motto {
+  color: var(--brand-muted);
+}
+
+.btn-primary,
+.login-btn,
+.btn-submit,
+.logout-btn,
+.hero-action {
+  background: var(--brand-red);
+  border-color: var(--brand-red);
+  color: #fff;
+}
+
+.btn-primary:hover,
+.login-btn:hover,
+.btn-submit:hover,
+.logout-btn:hover,
+.hero-action:hover {
+  background: var(--brand-red-dark);
+  border-color: var(--brand-red-dark);
+}
+
+.secondary-action,
+.btn-cancel,
+.btn-view,
+.btn-edit,
+.pagination button,
+.order-filter-btn {
+  background: transparent;
+  border-color: var(--brand-line);
+  color: var(--brand-ink);
+}
+
+.secondary-action:hover,
+.btn-cancel:hover,
+.btn-view:hover,
+.btn-edit:hover,
+.pagination button:hover:not(:disabled),
+.order-filter-btn:hover {
+  background: var(--brand-red-soft);
+  border-color: var(--brand-red);
+  color: var(--brand-red-dark);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.inventory-search-bar input,
+.inventory-search-bar select,
+.order-search-bar input,
+.employee-search-bar input,
+.finance-search-bar input {
+  background: #fff;
+  border-color: var(--brand-line);
+  color: var(--brand-ink);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus,
+.inventory-search-bar input:focus,
+.inventory-search-bar select:focus,
+.order-search-bar input:focus,
+.employee-search-bar input:focus,
+.finance-search-bar input:focus {
+  border-color: var(--brand-red);
+  box-shadow: 0 0 0 3px rgba(184, 58, 50, 0.12);
+}
+
+.stat-pill,
+.panel-chip,
+.inventory-details-hero-badge {
+  background: var(--brand-red-soft);
+  border-color: rgba(184, 58, 50, 0.18);
+  color: var(--brand-red-dark);
+}
+
+.module-card--teal,
+.module-card--blue,
+.module-card--violet,
+.summary-icon--teal,
+.summary-icon--blue,
+.summary-icon--violet {
+  background: var(--brand-red-soft);
+  border-color: rgba(184, 58, 50, 0.18);
+  color: var(--brand-red-dark);
+}
+
+.module-card--green,
+.summary-icon--green {
+  background: #e4eee7;
+  border-color: #c4daca;
+  color: var(--brand-green);
+}
+
+.datatable thead,
+.details-table thead {
+  background: #eee9e1;
+  color: var(--brand-ink);
+}
+
+.datatable tbody tr:hover,
+.details-table tbody tr:hover {
+  background: #faf5ef;
+}
+
+.login-container {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(184, 58, 50, 0.18), transparent 34%),
+    linear-gradient(135deg, #242321 0%, #403934 100%);
+}
+
+.login-visual {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(184, 58, 50, 0.2), transparent 30%),
+    radial-gradient(circle at 88% 84%, rgba(255, 252, 247, 0.06), transparent 34%),
+    linear-gradient(160deg, #242321 0%, #332f2b 58%, #1d1c1a 100%);
+  color: var(--brand-paper);
+}
+
+.brand-highlight {
+  padding: 24px 0 24px 24px;
+  border-left: 3px solid var(--brand-red);
+  background: transparent;
+}
+
+.brand-highlight h2,
+.brand-copy h1 {
+  color: var(--brand-paper);
+}
+
+.brand-copy p,
+.brand-highlight p {
+  color: rgba(255, 252, 247, 0.72);
+}
+
+.brand-points li {
+  border-color: rgba(255, 252, 247, 0.14);
+  background: rgba(255, 252, 247, 0.08);
+  color: rgba(255, 252, 247, 0.9);
+}
+
+.brand-points li::before {
+  background: var(--brand-red);
+  box-shadow: 0 0 0 5px rgba(184, 58, 50, 0.18);
+}
+
+.login-card {
+  border-color: rgba(255, 252, 247, 0.42);
+  background: var(--brand-paper);
+  box-shadow: 0 30px 70px rgba(36, 35, 33, 0.2);
+}
+
+.login-panel {
+  background: linear-gradient(180deg, #fffcf7 0%, #f4f1eb 100%);
+}
+
+.login-btn {
+  background: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-red-dark) 100%);
+  box-shadow: 0 16px 28px rgba(184, 58, 50, 0.24);
+}
+
+.login-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--brand-red-dark) 0%, #70201e 100%);
+  box-shadow: 0 20px 34px rgba(184, 58, 50, 0.28);
+}
+
+.notification-info {
+  background: linear-gradient(135deg, #4c4741 0%, #242321 100%);
+}
+
+:focus-visible {
+  outline-color: var(--brand-red);
+}

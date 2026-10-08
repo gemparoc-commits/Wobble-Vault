@@ -1,6 +1,8 @@
 export const createInitialInventoryFormData = () => ({
   brand: '',
   name: '',
+  gender: '',
+  sizingSystem: '',
   size: '',
   quantity: '',
   price: '',
@@ -34,6 +36,8 @@ export const validateInventoryForm = (formData) => {
 export const buildInventoryPayload = (formData) => ({
   brand: String(formData.brand).trim(),
   name: String(formData.name).trim(),
+  gender: String(formData.gender || '').trim() || null,
+  sizingSystem: String(formData.sizingSystem || '').trim() || null,
   size: String(formData.size || '').trim() || null,
   quantity: Number.parseInt(formData.quantity, 10),
   price: Number.parseFloat(formData.price),
@@ -43,6 +47,8 @@ export const buildInventoryPayload = (formData) => ({
 export const buildInventoryFormData = (item) => ({
   brand: item.brand || '',
   name: item.name || '',
+  gender: item.gender || '',
+  sizingSystem: item.sizingSystem || '',
   size: item.size || '',
   quantity: item.quantity != null ? String(item.quantity) : '',
   price: item.price != null ? String(item.price) : '',

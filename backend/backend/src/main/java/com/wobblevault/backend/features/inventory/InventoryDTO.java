@@ -18,6 +18,8 @@ public class InventoryDTO {
     private String brand;
     private String name;
     private String size;
+    private String gender;
+    private String sizingSystem;
     private String notes;
     private Integer quantity;
     private BigDecimal price;
@@ -28,6 +30,8 @@ public class InventoryDTO {
         this.brand = inventory.getBrand();
         this.name = inventory.getName();
         this.size = inventory.getSize();
+        this.gender = inventory.getGender();
+        this.sizingSystem = inventory.getSizingSystem();
         this.notes = inventory.getNotes();
         this.quantity = inventory.getQuantity();
         this.price = inventory.getPrice();

@@ -274,20 +274,42 @@ const Inventory = () => {
                   </div>
                 </div>
 
+                <div className="inventory-modal-grid inventory-modal-grid-row-2">
+                  <div className="form-group">
+                    <label>Gender</label>
+                    <select
+                      value={formData.gender}
+                      onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                    >
+                      <option value="">Select gender</option>
+                      <option value="Men">Men</option>
+                      <option value="Women">Women</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Sizing System</label>
+                    <select
+                      value={formData.sizingSystem}
+                      onChange={(e) => setFormData({ ...formData, sizingSystem: e.target.value })}
+                    >
+                      <option value="">Select sizing system</option>
+                      <option value="US">US</option>
+                      <option value="UK">UK</option>
+                      <option value="EU">EU</option>
+                    </select>
+                  </div>
+                </div>
+
                 <div className="inventory-modal-grid inventory-modal-grid-row-3">
                   <div className="form-group">
                     <label>Size</label>
-                    <select
+                    <input
+                      type="text"
                       value={formData.size}
                       onChange={(e) => setFormData({ ...formData, size: e.target.value })}
-                    >
-                      <option value="">Select size</option>
-                      {SIZE_OPTIONS.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
+                      placeholder="Enter size"
+                    />
                   </div>
 
                   <div className="form-group">
@@ -360,6 +382,14 @@ const Inventory = () => {
                     <div className="inventory-details-item">
                       <span>Size</span>
                       <strong>{detailsItem.size || '-'}</strong>
+                    </div>
+                    <div className="inventory-details-item">
+                      <span>Gender</span>
+                      <strong>{detailsItem.gender || '-'}</strong>
+                    </div>
+                    <div className="inventory-details-item">
+                      <span>Sizing System</span>
+                      <strong>{detailsItem.sizingSystem || '-'}</strong>
                     </div>
                     <div className="inventory-details-item">
                       <span>Quantity</span>

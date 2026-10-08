@@ -30,6 +30,12 @@ public class Inventory {
     @Column(length = 20)
     private String size;
 
+    @Column(length = 10)
+    private String gender;
+
+    @Column(length = 10)
+    private String sizingSystem;
+
     @Column(length = 1000)
     private String notes;
 

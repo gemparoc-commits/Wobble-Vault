@@ -12,6 +12,7 @@ import Sales from './features/sales/SalesView';
 import SalesArchive from './features/sales-archive/SalesArchiveView';
 import Accounts from './features/accounts/AccountsView';
 import './App.css';
+import './styles/BrandTheme.css';
 
 const PING_INTERVAL_MS = 10 * 60 * 1000;
 

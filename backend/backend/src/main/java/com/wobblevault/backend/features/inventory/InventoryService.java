@@ -26,6 +26,8 @@ public class InventoryService {
         inventory.setBrand(request.getBrand());
         inventory.setName(request.getName());
         inventory.setSize(request.getSize());
+        inventory.setGender(request.getGender());
+        inventory.setSizingSystem(request.getSizingSystem());
         inventory.setNotes(request.getNotes());
         inventory.setQuantity(request.getQuantity());
         inventory.setPrice(request.getPrice());
@@ -66,6 +68,8 @@ public class InventoryService {
         inventory.setBrand(request.getBrand());
         inventory.setName(request.getName());
         inventory.setSize(request.getSize());
+        inventory.setGender(request.getGender());
+        inventory.setSizingSystem(request.getSizingSystem());
         inventory.setNotes(request.getNotes());
         inventory.setQuantity(request.getQuantity());
         inventory.setPrice(request.getPrice());
@@ -84,6 +88,8 @@ public class InventoryService {
         request.setBrand(request.getBrand().trim());
         request.setName(request.getName().trim());
         request.setSize(blankToNull(request.getSize()));
+        request.setGender(blankToNull(request.getGender()));
+        request.setSizingSystem(blankToNull(request.getSizingSystem()));
         request.setNotes(blankToNull(request.getNotes()));
     }
 
