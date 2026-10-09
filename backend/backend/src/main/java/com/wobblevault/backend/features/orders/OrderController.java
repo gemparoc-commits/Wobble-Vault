@@ -71,6 +71,13 @@ public class OrderController {
         return ResponseEntity.ok(orderService.updateOrder(id, request));
     }
 
+    @PostMapping("/{id}/payment")
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('ORDERS')")
+    public ResponseEntity<OrderDTO> recordPayment(@PathVariable UUID id,
+                                                 @Valid @RequestBody UpdatePaymentRequest request) {
+        return ResponseEntity.ok(orderService.recordPayment(id, request.getAmount(), request.getPaymentMethod()));
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteOrder(@PathVariable UUID id) {

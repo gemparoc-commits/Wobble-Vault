@@ -13,6 +13,7 @@ import com.wobble.vault.data.model.LoginRequest
 import com.wobble.vault.data.model.LoginResponse
 import com.wobble.vault.data.model.OrderDto
 import com.wobble.vault.data.model.PageResponse
+import com.wobble.vault.data.model.PaymentUpdateRequest
 import com.wobble.vault.data.model.PermissionDto
 import com.wobble.vault.data.model.UserDto
 import retrofit2.Response
@@ -73,6 +74,12 @@ interface WobbleApi {
     suspend fun updateOrder(
         @Path("id") id: String,
         @Body body: CreateOrderRequest
+    ): Response<OrderDto>
+
+    @POST("api/orders/{id}/payment")
+    suspend fun updatePayment(
+        @Path("id") id: String,
+        @Body body: PaymentUpdateRequest
     ): Response<OrderDto>
 
     @DELETE("api/orders/{id}")

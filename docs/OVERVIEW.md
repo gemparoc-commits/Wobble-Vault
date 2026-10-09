@@ -31,7 +31,7 @@ Wobble Vault is a shoe-shop ERP (web-first, mobile-first ready). It tracks inven
 
 ## Notes
 - Package renamed to `com.wobblevault.backend`. Cookie `WV_AUTH`. localStorage keys `wobble:accessToken`, `wobble:currentUser`.
-- Payment captured once at order creation; no payment-update flow in order details. Cancelling order auto-restores stock.
+- Partial payment allowed at order creation; extra payments via `POST /api/orders/{id}/payment` (amount + method, re-syncs the income entry). Cancelling order auto-restores stock.
 
 ## 📎 Related
 - [[INDEX]] — map of content

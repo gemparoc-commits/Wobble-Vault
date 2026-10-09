@@ -44,6 +44,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -73,6 +74,8 @@ fun SalesScreen(api: WobbleApi, user: AuthUser, onBack: () -> Unit, onUnauthoriz
     var liquidationOpen by remember { mutableStateOf(false) }
     var detailTarget by remember { mutableStateOf<IncomeSourceDto?>(null) }
     var deleteTarget by remember { mutableStateOf<IncomeSourceDto?>(null) }
+    var receiptsOpen by remember { mutableStateOf(false) }
+    var liquidationsOpen by remember { mutableStateOf(false) }
     var reportStart by remember { mutableStateOf("") }
     var reportEnd by remember { mutableStateOf("") }
     var reportEntries by remember { mutableStateOf<List<IncomeSourceDto>?>(null) }
@@ -114,24 +117,48 @@ fun SalesScreen(api: WobbleApi, user: AuthUser, onBack: () -> Unit, onUnauthoriz
                 SectionCard("Payment methods", modifier = Modifier.weight(1f)) { SalesDetailRow("Cash", formatPHP(receipts.filter { it.paymentMethod.equals("cash", true) }.sumOf { it.amount ?: 0.0 })); SalesDetailRow("Gcash", formatPHP(receipts.filter { it.paymentMethod.equals("gcash", true) }.sumOf { it.amount ?: 0.0 })) }
             } }
             item { OutlinedTextField(query, { query = it }, placeholder = { Text("Search by order number, customer, or reference") }, leadingIcon = { Icon(Icons.Filled.Search, null, tint = BrandMuted) }, singleLine = true, modifier = Modifier.fillMaxWidth()) }
-            item { Text("Receipts", color = BrandInk, fontSize = 18.sp, fontWeight = FontWeight.Bold); Text("Payment entries from order checkouts.", color = BrandMuted, fontSize = 12.sp) }
+            item { SectionHeaderWithAction("Receipts", "Payment entries from order checkouts.", "View all", visibleReceipts.size > 3) { receiptsOpen = true } }
             when {
                 loading -> item { LoadingState() }
                 error != null -> item { ErrorState(error!!) { reload++ } }
                 visibleReceipts.isEmpty() -> item { EmptyState("No receipts match this search", "Payment entries appear here after order checkouts.") }
-                else -> items(visibleReceipts, key = { it.id ?: "receipt-${it.referenceNumber}" }) { entry -> SaleCard(entry, { detailTarget = entry }, { deleteTarget = entry }, canArchive) }
+                else -> items(visibleReceipts.take(3), key = { it.id ?: "receipt-${it.referenceNumber}" }) { entry -> SaleCard(entry, { detailTarget = entry }, { deleteTarget = entry }, canArchive) }
             }
-            item { Column { Text("Liquidations", color = BrandInk, fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 8.dp)); Text("Cash withdrawals recorded with a liquidation reference.", color = BrandMuted, fontSize = 12.sp) } }
+            item { SectionHeaderWithAction("Liquidations", "Cash withdrawals recorded with a liquidation reference.", "View all", visibleLiquidations.size > 3, Modifier.padding(top = 8.dp)) { liquidationsOpen = true } }
             if (!loading && error == null) {
                 if (visibleLiquidations.isEmpty()) item { EmptyState("No liquidations match this search", "Record a liquidation to see it here.") }
-                else items(visibleLiquidations, key = { it.id ?: "liquidation-${it.referenceNumber}" }) { entry -> SaleCard(entry, { detailTarget = entry }, { deleteTarget = entry }, canArchive) }
+                else items(visibleLiquidations.take(3), key = { it.id ?: "liquidation-${it.referenceNumber}" }) { entry -> SaleCard(entry, { detailTarget = entry }, { deleteTarget = entry }, canArchive) }
             }
             item { PerformanceReport(reportStart, { reportStart = it }, reportEnd, { reportEnd = it }, reportLoading, reportError, reportEntries != null, reportSource.filterNot { it.isLiquidation() }.sumOf { it.amount ?: 0.0 }, reportSource.filter { it.isLiquidation() }.sumOf { it.amount ?: 0.0 }) { start, end -> if (start.isBlank() || end.isBlank()) reportError = "Please select both a start and an end date." else if (start > end) reportError = "Start date must be on or before the end date." else scope.launch { reportLoading = true; reportError = null; val response = try { api.incomeDateRange(start, end) } catch (_: Exception) { null }; if (response?.isSuccessful == true) reportEntries = response.body().orEmpty() else if (response?.code() == 401) onUnauthorized() else reportError = "Could not generate the report."; reportLoading = false } } }
         }
     }
     if (liquidationOpen) LiquidationEditor(api, entries, { liquidationOpen = false }, { liquidationOpen = false; reload++ }, onUnauthorized)
+    if (receiptsOpen) EntriesModal("All receipts", "Every payment entry matching the current search.", visibleReceipts, "No receipts match this search", { receiptsOpen = false }, { detailTarget = it }, { deleteTarget = it }, canArchive)
+    if (liquidationsOpen) EntriesModal("All liquidations", "Every liquidation matching the current search.", visibleLiquidations, "No liquidations match this search", { liquidationsOpen = false }, { detailTarget = it }, { deleteTarget = it }, canArchive)
     detailTarget?.let { ReceiptDetails(it) { detailTarget = null } }
     deleteTarget?.let { entry -> ConfirmDialog("Delete record?", "Delete this ${if (entry.isLiquidation()) "liquidation" else "receipt"}?", "Delete", { deleteTarget = null; scope.launch { val response = entry.id?.let { api.deleteIncome(it) }; if (response?.code() == 401) onUnauthorized() else reload++ } }, { deleteTarget = null }) }
+}
+
+@Composable
+private fun SectionHeaderWithAction(title: String, subtitle: String, actionLabel: String, showAction: Boolean, modifier: Modifier = Modifier, onAction: () -> Unit) {
+    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+        Column(Modifier.weight(1f)) { Text(title, color = BrandInk, fontSize = 18.sp, fontWeight = FontWeight.Bold); Text(subtitle, color = BrandMuted, fontSize = 12.sp) }
+        if (showAction) TextButton(onClick = onAction) { Text(actionLabel, color = BrandRed, fontWeight = FontWeight.SemiBold, fontSize = 13.sp) }
+    }
+}
+
+@Composable
+private fun EntriesModal(title: String, subtitle: String, entries: List<IncomeSourceDto>, emptyText: String, onDismiss: () -> Unit, onView: (IncomeSourceDto) -> Unit, onDelete: (IncomeSourceDto) -> Unit, canDelete: Boolean) {
+    var modalQuery by remember { mutableStateOf("") }
+    val term = modalQuery.trim()
+    val filtered = entries.filter { entry -> term.isBlank() || listOf(entry.jobOrderNo, entry.customerName, entry.referenceNumber).any { it.orEmpty().contains(term, true) } }
+    AlertDialog(onDismissRequest = onDismiss, title = { Text(title, color = BrandInk, fontWeight = FontWeight.Bold) }, text = {
+        Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text(subtitle, color = BrandMuted, fontSize = 12.sp)
+            OutlinedTextField(modalQuery, { modalQuery = it }, placeholder = { Text("Search this list") }, leadingIcon = { Icon(Icons.Filled.Search, null, tint = BrandMuted) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+            if (filtered.isEmpty()) EmptyState(emptyText, "Try a broader search term.") else filtered.forEach { entry -> SaleCard(entry, { onView(entry) }, { onDelete(entry) }, canDelete) }
+        }
+    }, confirmButton = { TextButton(onClick = onDismiss) { Text("Close") } })
 }
 
 @Composable

@@ -8,6 +8,11 @@ data class OrderItemRequest(
     val quantity: Int? = null
 )
 
+data class PaymentUpdateRequest(
+    val amount: Double,
+    val paymentMethod: String
+)
+
 data class CreateOrderRequest(
     val customerName: String? = null,
     val items: List<OrderItemRequest> = emptyList(),

@@ -228,4 +228,65 @@ class OrderServiceTest {
     void getOrdersByYearMonth_rejectsInvalidMonth() {
         assertThrows(IllegalArgumentException.class, () -> orderService.getOrdersByYearMonth(2026, 13));
     }
+
+    @Test
+    void createOrder_paymentExceedsTotal_throws() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> orderService.createOrder(
+                request(new BigDecimal("2500.00"), 2, new BigDecimal("5000.01"), null)));
+
+        assertTrue(ex.getMessage().contains("exceed"));
+        verify(orderRepository, never()).save(any(Order.class));
+    }
+
+    @Test
+    void recordPayment_addsToPayment_andSyncsIncome() {
+        Order order = activeOrder(new BigDecimal("5000.00"), new BigDecimal("2000.00"));
+        when(orderRepository.findById(order.getId())).thenReturn(Optional.of(order));
+
+        OrderDTO dto = orderService.recordPayment(order.getId(), new BigDecimal("1500.00"), "gcash");
+
+        assertEquals(0, dto.getPayment().compareTo(new BigDecimal("3500.00")));
+        assertEquals("gcash", dto.getPaymentMethod());
+        assertEquals(0, dto.getBalance().compareTo(new BigDecimal("1500.00")));
+        verify(orderRepository).save(order);
+        verify(incomeSourceService).syncOrderPayment(any(CreateIncomeSourceRequest.class));
+    }
+
+    @Test
+    void recordPayment_overpay_throws() {
+        Order order = activeOrder(new BigDecimal("5000.00"), new BigDecimal("4000.00"));
+        when(orderRepository.findById(order.getId())).thenReturn(Optional.of(order));
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> orderService.recordPayment(order.getId(), new BigDecimal("1500.00"), "cash"));
+
+        assertTrue(ex.getMessage().contains("exceed"));
+        verify(orderRepository, never()).save(any(Order.class));
+        verify(incomeSourceService, never()).syncOrderPayment(any(CreateIncomeSourceRequest.class));
+    }
+
+    @Test
+    void recordPayment_nonActiveOrder_throws() {
+        Order order = activeOrder(new BigDecimal("5000.00"), BigDecimal.ZERO);
+        order.setStatus(OrderService.STATUS_CANCELLED);
+        when(orderRepository.findById(order.getId())).thenReturn(Optional.of(order));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> orderService.recordPayment(order.getId(), new BigDecimal("100.00"), "cash"));
+        verify(orderRepository, never()).save(any(Order.class));
+    }
+
+    private Order activeOrder(BigDecimal price, BigDecimal payment) {
+        Order order = new Order();
+        order.setId(UUID.randomUUID());
+        order.setJobOrderNo("071026-01");
+        order.setShop("store");
+        order.setPaymentMethod("cash");
+        order.setOrderDate(LocalDate.now());
+        order.setStatus(OrderService.STATUS_ACTIVE);
+        order.setInventoryDeducted(false);
+        order.setPrice(price);
+        order.setPayment(payment);
+        return order;
+    }
 }

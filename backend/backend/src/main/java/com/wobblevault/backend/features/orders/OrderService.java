@@ -64,6 +64,9 @@ public class OrderService {
         if (total.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Discount cannot exceed the order total");
         }
+        if (payment.compareTo(total) > 0) {
+            throw new IllegalArgumentException("Payment cannot exceed the order total");
+        }
 
         String fingerprint = buildFingerprint(request, shop, paymentMethod, status, discount, payment);
         Order existing = orderRepository.findByRequestFingerprint(fingerprint).orElse(null);
@@ -148,6 +151,9 @@ public class OrderService {
         if (total.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Discount cannot exceed the order total");
         }
+        if (payment.compareTo(total) > 0) {
+            throw new IllegalArgumentException("Payment cannot exceed the order total");
+        }
 
         if (order.getInventoryDeducted()) {
             restoreStock(order.getItems());
@@ -173,6 +179,32 @@ public class OrderService {
             deductStock(order.getItems());
             order.setInventoryDeducted(true);
         }
+
+        Order savedOrder = orderRepository.save(order);
+        syncOrderIncome(savedOrder);
+        return new OrderDTO(savedOrder);
+    }
+
+    public OrderDTO recordPayment(UUID id, BigDecimal amount, String paymentMethod) {
+        Order order = requireOrder(id);
+        if (!STATUS_ACTIVE.equals(order.getStatus())) {
+            throw new IllegalArgumentException("Only active orders can receive payments");
+        }
+
+        BigDecimal additional = amount != null ? amount : BigDecimal.ZERO;
+        if (additional.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Payment amount must be greater than 0");
+        }
+
+        BigDecimal total = order.getPrice() != null ? order.getPrice() : BigDecimal.ZERO;
+        BigDecimal paid = order.getPayment() != null ? order.getPayment() : BigDecimal.ZERO;
+        BigDecimal newPayment = paid.add(additional);
+        if (newPayment.compareTo(total) > 0) {
+            throw new IllegalArgumentException("Payment cannot exceed the order total");
+        }
+
+        order.setPayment(newPayment);
+        order.setPaymentMethod(normalizePaymentMethod(paymentMethod));
 
         Order savedOrder = orderRepository.save(order);
         syncOrderIncome(savedOrder);

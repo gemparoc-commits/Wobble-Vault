@@ -47,7 +47,7 @@ This is the map of content for the Wobble Vault project — a shoe-shop ERP (inv
 2. Non-admin users can be created without email/password — cannot log in.
 3. Prod DB falls back to in-memory H2 if `DATABASE_URL` is missing — data vanishes on restart.
 4. Order status: ACTIVE | ARCHIVED | CANCELLED; creating deducts stock; cancelling restores stock.
-5. Payment captured once at order creation; editing re-syncs income entry (no payment-update in order details).
+5. Partial payment at creation; extra payments via the payment-update endpoint; editing re-syncs income entry.
 
 ## 📎 Related
 - [[INDEX]] — start here
