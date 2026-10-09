@@ -2,3 +2,7 @@
 local-env.ps1
 .env
 .env.local
+
+# Obsidian — docs/ is the vault
+docs/.obsidian/workspace*.json
+WobbleVault/.obsidian/

@@ -84,7 +84,7 @@ const api = axios.create({
 
 // Enable short-lived debug logging to help diagnose 401s on write requests.
 // Remove or set to false when issue is resolved.
-const DEBUG_API_REQUESTS = true;
+const DEBUG_API_REQUESTS = false;
 
 let cachedCsrfToken = null;
 

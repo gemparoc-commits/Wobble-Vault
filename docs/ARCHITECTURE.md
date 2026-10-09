@@ -49,7 +49,8 @@ Note: Entities for clients, customized orders, teams, attendance, returned items
 - **JWT**: HS512, HMAC key from `jwt.secret` (derived via SHA-512 in `JwtProvider`), expiry 86400000 (24h). Secret from `JWT_SECRET` env in prod.
 - **Stateless**: `SessionCreationPolicy.STATELESS`.
 - **Token delivery**: `Authorization: Bearer <token>` **or** httpOnly cookie `WV_AUTH` (`JwtAuthenticationFilter`).
-- **CSRF**: `CookieCsrfTokenRepository.withHttpOnlyFalse()` — cookie `XSRF-TOKEN`, header `X-XSRF-TOKEN`. Ignored for `POST /api/auth/login`, `GET /api/auth/health`, `GET /api/auth/csrf`. Prod secure+SameSite per config.
+- **CSRF**: `CookieCsrfTokenRepository.withHttpOnlyFalse()` + plain `CsrfTokenRequestAttributeHandler` (no BREACH masking: cookie, `GET /api/auth/csrf` body, and `X-XSRF-TOKEN` header all carry the same token) — cookie `XSRF-TOKEN`, header `X-XSRF-TOKEN`. Ignored for `POST /api/auth/login`, `GET /api/auth/health`, `GET /api/auth/csrf`. Prod secure+SameSite per config.
+- **Error statuses**: written directly as JSON (`ApiError` shape, no `sendError` re-dispatch) — `401` = missing/invalid auth, `403` = bad CSRF token or insufficient permission.
 - **Authorization**: `@PreAuthorize` using `hasRole('ADMIN')` / `hasAuthority('<PAGE_NAME>')`. Authorities include `ROLE_<role>` + permission page names.
 - **CORS**: `allowCredentials=true`; origins from `app.cors.origins` (+ localhost allowed when configured).
 - **Login rate limiting**: in-memory; 5 failed → 15 min lock (keys by email|ip, ip|ip).

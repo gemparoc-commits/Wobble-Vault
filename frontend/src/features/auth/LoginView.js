@@ -50,7 +50,6 @@ const Login = () => {
             />
             <div className="brand-copy">
               <h1>Wobble Vault</h1>
-              <p>Apparel and Clothing</p>
             </div>
           </div>
 

@@ -93,6 +93,14 @@ This document is the plan verbatim as specified.
   `npm run build`, `$env:CI="true"; npm test -- --watchAll=false`.
 - No source-code comments unless asked. Keep AGENTS.md terse (~40-60 lines) and in sync.
 
+## STEP 7 — ANDROID APP (`WobbleVault/`, added later)
+- Build fix: Gradle 8.13, AGP 8.13.2, Kotlin 2.2.21, compose BOM 2026.06.01, compileSdk 36
+  (BOM ≥2026.07 needs SDK 37 + AGP 9). Brand theme/icons from BrandTheme.css + wvlogo.png.
+- Integration: Retrofit+Gson against `BuildConfig.BASE_URL` (Render), login → stored JWT →
+  `GET /api/auth/me` restore; Bearer + `X-XSRF-TOKEN` (OkHttp CookieJar double-submit).
+- Screens: splash/restore, login (401/429 messages), permission-gated menu, dashboard stats,
+  inventory read-only list (page=0&size=100, client-side search). ADMIN or INVENTORY gate.
+
 ## DONE
-Phase 0..6 complete, all builds/tests green, plan.md + docs written. Report what you
+Phase 0..7 complete, all builds/tests green, plan.md + docs written. Report what you
 built, what you skipped, and any deviations.

@@ -1,0 +1,31 @@
+{
+  "items": [
+    {
+      "type": "file",
+      "path": "INDEX.md",
+      "title": "INDEX — start here"
+    },
+    {
+      "type": "group",
+      "title": "Reading order",
+      "items": [
+        {
+          "type": "file",
+          "path": "OVERVIEW.md"
+        },
+        {
+          "type": "file",
+          "path": "ARCHITECTURE.md"
+        },
+        {
+          "type": "file",
+          "path": "ADMIN.md"
+        },
+        {
+          "type": "file",
+          "path": "SETUP.md"
+        }
+      ]
+    }
+  ]
+}

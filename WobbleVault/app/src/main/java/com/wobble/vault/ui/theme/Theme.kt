@@ -1,6 +1,5 @@
 package com.wobble.vault.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,35 +8,55 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = BrandRedBright,
+    onPrimary = Color.White,
+    primaryContainer = BrandRedDark,
+    onPrimaryContainer = Color(0xFFFFDBD6),
+    secondary = Color(0xFF8FB69D),
+    onSecondary = Color.White,
+    secondaryContainer = BrandGreen,
+    onSecondaryContainer = Color(0xFFDCEFE4),
+    tertiary = Color(0xFFD9A465),
+    onTertiary = Color.White,
+    background = BrandBoneDark,
+    onBackground = BrandOnDark,
+    surface = BrandSurfaceDark,
+    onSurface = BrandOnDark,
+    surfaceVariant = Color(0xFF332F2B),
+    onSurfaceVariant = BrandOnDarkMuted,
+    outline = BrandLineDark,
+    outlineVariant = BrandLineDark
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
+    primary = BrandRed,
     onPrimary = Color.White,
+    primaryContainer = BrandRedSoft,
+    onPrimaryContainer = BrandRedDark,
+    secondary = BrandGreen,
     onSecondary = Color.White,
+    secondaryContainer = Color(0xFFE4EEE7),
+    onSecondaryContainer = BrandGreen,
+    tertiary = BrandAmber,
     onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    background = BrandBone,
+    onBackground = BrandInk,
+    surface = BrandPaper,
+    onSurface = BrandInk,
+    surfaceVariant = Color(0xFFEEE9E1),
+    onSurfaceVariant = BrandMuted,
+    outline = BrandLine,
+    outlineVariant = BrandLine
 )
 
 @Composable
 fun WobbleVaultTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
